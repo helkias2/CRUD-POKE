@@ -1,5 +1,5 @@
 # CRUD-POKE
-O que é uma API?
+O que é uma API?<br>
 Se dermos uma “googlada” vamos dar de cara com a seguinte descrição no wikipedia:
 
 “Interface de Programação de Aplicações (português europeu) ou Interface de Programação de Aplicação (português brasileiro)), cujo acrônimo API provém do Inglês Application Programming
