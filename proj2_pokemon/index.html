@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt_br">
+    <head>
+        <meta charset="UTF-8" />
+        <meat name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title> Meu New Programa </title>
+        <style>
+
+            body{ 
+                margin: 0;
+                padding:0;
+                border: 0;
+           }
+
+           .container{
+               height: 100px;
+               background-color: #ffffff;
+           }
+
+           .topo{
+                width: 100%;
+                max-width: 1000px;
+                height: 100px;
+                background-color: #ff0000;
+                margin: auto;    
+           }
+
+           .logotipo{
+               text-align: center;
+               line-height: 100px;
+               font-size: 40px;
+               font-family:sans-serif;
+           }
+           
+           .menu{
+                width: 100%;
+                max-width: 1000px;
+                height: 50px;
+                background-color: #3367b0;
+                margin: auto;    
+              
+           }
+
+           .menu-list ul,
+           .menu-list li{
+                margin: 0;
+                border: 0;
+           }
+
+           .menu-list li{
+               list-style: none;
+               display: inline-block;
+               margin-left: 10px;
+               margin-right: 10px;
+               line-height: 50px;
+               color: #FFF;
+               font-size: 20px;
+               font-family: sans-serif;
+           }
+           .menu-list li:hover{
+                background-color: #FFF;
+                color: #000;
+                cursor: pointer;
+           }
+           .cont-search{
+                width: 100%;
+                max-width: 1000px;
+                height: 100px;
+                background-color: #000;
+                margin: auto;
+           }
+           .cont-search-bc{
+               width: 100%;
+               height: 100px;
+               background-color:#000;
+               margin: auto;
+           }
+           
+           input{
+                margin-top: 20px;
+                margin-left: 50px;
+                width: 80%;
+                height: 60px;
+                border-radius: 20px;
+           }
+           
+           button{
+               width: 100px;
+               height: 60px;
+               background-color: #3367b0;
+               color: #FFF;
+               font-size:20px;
+               border-radius: 20px;
+
+           }
+
+           .pokemon{
+                width: 100%;
+                max-width: 1000px;
+                height: 600px;
+                background-color: #3367b0;
+                box-sizing: border-box;
+                border: 10px solid; 
+                margin: auto;
+
+           }
+           .itens-pokemon{
+               margin-left: 50px;
+               margin-top:50px;
+               width:100%;
+               height:420px;
+
+           }
+           .pokemon-picture img{
+                width: 400px;
+                height: 400px;
+           }
+           .pokemon-info{
+                width: 400px;
+                height: 400px;
+           }
+           @media only screen and (min-width: 500px) and (max-width:788px){
+                button{
+                    margin-top: 10px;
+                    margin-left: 50px;
+                    width: 80%;
+                    height: 60px;
+                    background-color: #3367b0;
+                    color: #FFF;
+                    border-radius: 20px;
+
+                }
+                .itens-pokemon{
+                    margin-left: 20px;
+                    margin-top:100px;
+                    width:100%;
+                    max-width:300px;
+                    height:500px;
+               
+                }
+                .pokemon-picture img{
+                        width: 300px;
+                        height: 300px;
+                }
+                .pokemon-info{
+                        width: 400px;
+                        height: 400px;
+                }
+                .pokemon-info .skill{
+                    display: none;
+                }
+           }
+          
+
+        </style>
+     
+    </head>
+    <body>
+        <div class="container">
+            <div class="topo">
+                <div class="logotipo">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/98/International_Pok%C3%A9mon_logo.svg" alt="Pokemon Logo">
+                </div>
+            </div>
+            <div class="menu">
+                <div class="menu-list">
+                    <ul>
+                        <li> Home </li>
+                   
+                    </ul>     
+                </div>
+            </div>
+            <div class="cont-search">
+                <div class="cont-search-bc">
+                    <form action="" method="POST" class="search">
+                        <input type="search" class="search-input" placeholder="Search nome Pokemon" name="" >
+                        <button class="button-search"> Buscar</button>
+                    </form>
+                </div>
+            </div>
+            <div class="pokemon">
+                <div class="itens-pokemon">
+                    
+                </div>
+                <span class="error" hidden> Seu pokemon nao EXISTE!!!. Buscar novamente </span>
+            </div>
+        </div>
+        <script>
+           
+            //API end-point do pokemon
+            // debugger
+            const baseUrl =  'https://pokeapi.co/api/v2/pokemon/';
+           
+            // elements do html
+            let searchInput   =  document.querySelector('.search-input');
+            const searchButton  =  document.querySelector('.button-search');
+            const container     =  document.querySelector('.itens-pokemon');
+            const erroMessege   =  document.querySelector('.error');
+            
+          ;
+            
+            // criando variaveis global
+            var pokeName;
+            var pokemon = 0;
+            var card;
+
+
+            // funcao para criar elementos
+            //  function getElements(element){
+            //     let doc =  document.querySelector(element);      
+            //     return doc;
+            // }
+          
+            // funcao de requisao da API
+            function requestPokeInfo(url, nome){
+                fetch(url + nome)
+                .then(response => response.json())
+                .then(data => {
+                    pokemon = data;
+                    console.log(pokemon);
+
+                }).catch(err => console.log(err));
+            }
+            
+
+         //Funcao responsavel por montar o HTML exibido na pagina
+            function creatCard(){
+                card = `
+                    <div class="pokemon-picture">
+                        <img src="${pokemon.sprites.other.dream_world.front_default}" alt="Sprite of ${pokemon.name}">
+                    </div>
+                    <div class="pokemon-info">
+                        <h1 class="name"> Nome: ${pokemon.name}</h1>
+                        <p class="number"><b> N: ${pokemon.id}</b> <br> Weight: ${pokemon.weight / 10} <br>  height: ${pokemon.height / 10}</p>
+                        <p class="type"> Tipe: ${pokemon.types.map(item => ' ' + item.type.name).toString()} </p>
+                        <p class="skill"> Skills: ${pokemon.moves.map(item => ' ' + item.move.name).toString()} </p> 
+                    </div>`;
+                    return card;
+            }
+
+            // funcao para mostra o retorno da api e trativa de erro
+            function startApp(pokemon){
+                requestPokeInfo(baseUrl, pokeNome);
+
+                setTimeout(function() {
+                    //Exibe uma mensagem de erro caso o pokemon pesquisado nao exista na api
+                    if(pokemon.detail){
+                        erroMessege.style.display = 'block';
+                        container.style.dispay = 'none';
+                    }else{
+                        erroMessege.style.display = 'none';
+                        container.style.display = 'flex';
+                        container.innerHTML = creatCard();
+                    }
+                }, 3000);
+            }
+
+            searchButton.addEventListener('click', function(event){
+                event.preventDefault();
+                // garantindo que o nome passado para variavel pokenome e minuscula
+                pokeNome = searchInput.value.toLowerCase();
+                startApp(pokeNome);
+            
+                container.style.backgroundImage = "url(load.gif)";
+                container.style.backgroundSize = "950px 420px";
+                
+                // container.classList.add('fade');
+
+                setTimeout(()=> {
+                    container.style.backgroundImage = 'none';
+                    // container.classList.remove('fade');
+                }, 3000)
+           
+            })
+
+        </script>
+    </body>
+</html>
